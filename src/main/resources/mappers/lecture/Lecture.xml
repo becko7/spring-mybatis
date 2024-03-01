@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.repository.LectureMapper">
+    <select id="selectLectureCourseInfos" resultType="org.example.model.dto.LectureCourseInfo">
+        SELECT t1.title
+            , t1.id AS lectureCourseId
+            , t1.from, t1.to
+            , t1.capacity
+            , COUNT(t2.id) AS registeredStudentCount
+        FROM lecture_course t1
+        LEFT OUTER JOIN lecture_applicants t2 ON t1.id = t2.lecture_course_id
+        GROUP BY t1.title, t1.id, t1.from, t1.to, t1.capacity
+    </select>
+
+    <select id="selectLectureCourseDetails" resultType="org.example.model.dto.LectureCourseDetail" parameterType="map">
+        SELECT t1.title
+            , t1.id AS lectureCourseId
+            , t1.from
+            , t1.to
+            , (SELECT name FROM instructor tab where tab.id = t1.instructor_id) AS instructorName
+            , t1.instructor_id AS instructorId
+            , (SELECT name FROM student tab where tab.id = t2.student_id) AS studentName
+            , t2.student_id AS studentId
+            , t2.created_at AS registeredAt
+        FROM lecture_course t1
+        LEFT OUTER JOIN lecture_applicants t2 ON t1.id = t2.lecture_course_id
+        WHERE 1 = 1
+        <if test="lectureCourseId != null">
+            AND t1.id = #{lectureCourseId}
+        </if>
+
+    </select>
+</mapper>

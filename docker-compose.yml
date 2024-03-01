@@ -1,0 +1,75 @@
+version: '3.9'
+
+services:
+  ##############################################
+  ## mysql 5
+  ##############################################
+#  mysql:
+#    platform: linux/x86_64  #add this for apple silicon chip
+#    image: mysql:5.7.31
+#    hostname: local-mysql
+#    container_name: local-mysql
+#    restart: always
+#    ports:
+#      - 11801:3306
+#    volumes:
+##      - ./initdb.sql:/docker-entrypoint-initdb.d/setup.sql
+#      - ~/programs/docker/mysql/blog-master/data:/var/lib/mysql
+#      - ~/programs/docker/mysql/blog-master/config:/etc/mysql/conf.d
+#    command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
+#    environment:
+#      - MYSQL_ROOT_PASSWORD=root
+
+  ##############################################
+  ## mysql 8
+  ##############################################
+  db:
+    platform: linux/x86_64
+    image: library/mysql:8.0.36
+    container_name: local_docker_mysql8
+    restart: always
+#    command: mysqld --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Seoul
+    ports:
+      - 11802:3306
+    volumes:
+      # - ./db/mysql/data:/var/lib/mysql
+      # 디렉토리 마운트 설정
+      - ~/programs/docker/mysql8/data:/var/lib/mysql
+
+  ##############################################
+  ## postgres
+  ##############################################
+#  # 서비스 명
+#  postgresql:
+#    # 사용할 이미지
+#    image: postgres
+#    # 컨테이너 실행 시 재시작
+#    restart: always
+#    # 컨테이너명 설정
+#    container_name: postgres_local
+#    # 접근 포트 설정 (컨테이너 외부:컨테이너 내부)
+#    ports:
+#      - "11803:5432"
+#    # 환경 변수 설정
+#    environment:
+#      # PostgreSQL 계정 및 패스워드 설정 옵션
+#      POSTGRES_USER: blog_master
+#      POSTGRES_PASSWORD: blog_master
+#      POSTGRES_DB: blog_master
+#    # 볼륨 설정
+#    volumes:
+#      - ~/programs/docker/postgres/:/var/lib/postgresql/data
+
+#volumes:
+#  postgresql:
+#    driver: local
+#  db_data:
+
+#  kafka_data:
+#    driver: local

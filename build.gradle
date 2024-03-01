@@ -1,0 +1,66 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.2'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'idea' //to download sources automatically
+    id "org.flywaydb.flyway" version "10.8.1"
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'idea'
+
+idea {
+    module {
+        downloadSources = true
+    }
+}
+
+java {
+    sourceCompatibility = '21'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-jdbc')
+    implementation ('org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3')
+
+
+    implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.5.1'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.12'
+    implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.5.1'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.14.0'
+
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: '10.8.1'
+    implementation group: 'org.flywaydb', name: 'flyway-commandline', version: '10.8.1'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+flyway {
+    url = 'jdbc:mysql://127.0.0.1:11802/test?useSSL=false'
+    user = 'root'
+    password = 'root'
+}
+
+test {
+    useJUnitPlatform()
+}
