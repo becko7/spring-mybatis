@@ -15,6 +15,7 @@ public class LectureCourseDetail {
     private String instructorName;
     private Long instructorId;
     private String studentName;
+    private String studentRegisterName;//
     private Long studentId;
     private LocalDate registeredAt;
 }
