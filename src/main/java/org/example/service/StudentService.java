@@ -17,7 +17,7 @@ public class StudentService {
 
     public String saveStudent(Map<String, Object> params) {
         int result = studentMapper.insertStudent(params);
-
+        
         return result == 1 ? "성공적으로 저장하였습니다." : "요청하신 학생정보 등록에 실패하였습니다.";
     }
 }
