@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.repository.InstructorMapper">
+
+    <select id="selectInstructorByName" resultType="org.example.model.dto.Instructor">
+        SELECT *
+        FROM instructor
+        WHERE name = #{name}
+    </select>
+
+    <select id="selectInstructorById" resultType="org.example.model.dto.Instructor">
+        SELECT *
+        FROM instructor
+        WHERE id = #{id}
+    </select>
+
+    <select id="selectStudentDashboard" resultType="map">
+        SELECT id, name, cource_name
+             , case when cource_name is null then '미수강' else '수강' end status
+        FROM (
+             SELECT t1.id
+                  , t1.name
+                  , (select title from lecture_course where id = t2.lecture_course_id) cource_name
+             FROM student t1
+             WHERE t1.name = #{name}
+             LEFT OUTER JOIN lecture_applicants t2 on t1.id = t2.student_id
+         ) result;
+    </select>
+
+    <insert id="insertInstructor" parameterType="map">
+        INSERT INTO STUDENT(
+            `name`,
+            `desc`
+        ) VALUES(
+            #{name},
+            #{desc}
+        )
+    </insert>
+
+</mapper>

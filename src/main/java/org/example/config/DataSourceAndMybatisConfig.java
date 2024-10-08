@@ -20,7 +20,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 public class DataSourceAndMybatisConfig {
 
-    @Bean(value = "mybatisDataSource", destroyMethod = "close")
+    @Bean(value = "mybatisDataSource")
     public DataSource mybatisDataSource(Environment environment) {
         HikariConfig hikariConfig = new HikariConfig();
 
